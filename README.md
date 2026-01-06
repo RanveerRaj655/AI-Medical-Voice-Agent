@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Medical Voice Agent
+
+An AI-powered medical consultation platform that enables users to interact with specialized AI doctors through voice and text interfaces. Users can start consultations, manage medical sessions, generate reports, and access premium features via subscriptions.
+
+## Features
+
+- **AI Doctor Consultations**: Chat with AI specialists in various medical fields (Cardiology, Dermatology, Neurology, etc.)
+- **Voice Integration**: Real-time voice conversations using VAPI for immersive interactions
+- **User Authentication**: Secure login/signup with Clerk
+- **Subscription Management**: Premium access to specialized doctors with Clerk's billing system
+- **Session Management**: Track consultation history and generate medical reports
+- **Responsive UI**: Modern, accessible interface built with Next.js and Tailwind CSS
+
+## Tech Stack
+
+### Frontend
+- **Next.js 16** - React framework for server-side rendering and API routes
+- **React 19** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible UI components
+- **Lucide React** - Icon library
+
+### Backend & Database
+- **Next.js API Routes** - Serverless API endpoints
+- **Drizzle ORM** - Type-safe SQL query builder
+- **PostgreSQL (Neon)** - Cloud database
+- **Clerk** - Authentication and subscription management
+
+### AI & Integrations
+- **OpenRouter API** - LLM API for AI doctor responses
+- **VAPI** - Voice assistant API for real-time voice interactions
+- **Axios** - HTTP client for API calls
+
+### Development Tools
+- **ESLint** - Code linting
+- **TypeScript** - Type checking
+- **Drizzle Kit** - Database migrations
+
+## APIs Used
+
+This project integrates with the following external APIs:
+
+1. **OpenRouter API** (`https://openrouter.ai/`)
+   - Used for generating AI responses from medical specialists
+   - Called from: `/api/suggest-doctors/route.tsx`, `/api/session-chat/route.tsx`, `/api/medical-report/route.tsx`
+   - Purpose: AI-powered doctor recommendations and conversation responses
+
+2. **Clerk API** (`https://clerk.com/`)
+   - Used for user authentication, profile management, and subscription handling
+   - Called from: Various components using `@clerk/nextjs` hooks and server-side `currentUser()`
+   - Purpose: User auth, subscription checks, and billing
+
+3. **VAPI API** (`https://vapi.ai/`)
+   - Used for voice assistant functionality
+   - Called from: Voice-enabled components (integrated via `@vapi-ai/web`)
+   - Purpose: Real-time voice conversations with AI doctors
+
+4. **Neon PostgreSQL** (Database)
+   - Cloud-hosted PostgreSQL database
+   - Accessed via Drizzle ORM from API routes and components
+   - Purpose: Storing user data, sessions, and medical records
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- npm, yarn, or pnpm
+- PostgreSQL database (Neon recommended)
 
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd ai-medical-voice-agent
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Database
+DATABASE_URL='your-neon-postgresql-connection-string'
 
-## Learn More
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
+CLERK_SECRET_KEY=your-clerk-secret-key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
 
-To learn more about Next.js, take a look at the following resources:
+# OpenRouter API (for AI responses)
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPEN_ROUTER_API_KEY=your-openrouter-api-key-2
+# Add other OpenRouter keys as needed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# VAPI (for voice)
+NEXT_PUBLIC_VAPI_VOICE_ASSISTANT_ID=your-vapi-assistant-id
+NEXT_PUBLIC_VAPI_API_KEY=your-vapi-api-key
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Set up the database:
+```bash
+# Generate and run migrations
+npx drizzle-kit generate
+npx drizzle-kit migrate
+```
 
-## Deploy on Vercel
+5. Run the development server:
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+ai-medical-voice-agent/
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication pages
+│   ├── (routes)/          # Protected routes
+│   │   └── dashboard/     # Main dashboard
+│   └── api/               # API routes
+├── components/            # Reusable UI components
+├── config/                # Database and API configurations
+├── lib/                   # Utility functions
+├── shared/                # Shared data (doctor list)
+└── public/                # Static assets
+```
+
+## Key Components
+
+- **DoctorAgentCard**: Displays AI doctor information with subscription checks
+- **AddNewSessionDialog**: Handles starting new consultations
+- **HistoryList**: Shows past consultation sessions
+- **PricingTable**: Clerk-powered subscription management
+
+## Subscription Model
+
+The app uses a freemium model:
+- Free users can access basic consultations
+- Premium ("pro") subscribers unlock specialized doctors and advanced features
+- Subscription status is checked via Clerk's API in both frontend components and API routes
+
+## Deployment
+
+The app can be deployed on Vercel, Netlify, or any platform supporting Next.js:
+
+1. Build the project:
+```bash
+npm run build
+```
+
+2. Deploy the `.next` folder and configure environment variables on your hosting platform.
+
