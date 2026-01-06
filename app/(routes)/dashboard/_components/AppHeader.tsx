@@ -60,7 +60,7 @@ function AppHeader() {
         <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
           <Image
             src="/logo.svg"
-            alt="MediVoice AI Logo"
+            alt="EchoHealth_AI Logo"
             width={80}
             height={80}
             className="w-16 h-16 md:w-20 md:h-20"
