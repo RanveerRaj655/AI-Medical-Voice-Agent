@@ -18,9 +18,9 @@ function SuggestedDoctorCard({ doctorAgent, setSelectedDoctor ,selectedDoctor}: 
      hover:border-blue-500 transition cursor-pointer ${selectedDoctor?.id == doctorAgent?.id && 'border-blue-500'}`}
      onClick={onClick}>
        <Image src={doctorAgent.image}
-       alt={doctorAgent.specialist} width={70} height={70} className='rounded 4xl' />
-      <h3 className='font-bold mt-1 text-center'>{doctorAgent?.specialist}</h3>
-      <p className='gap-2 text-xs text-center line-clamp-2'>{doctorAgent?.description}</p>
+       alt={doctorAgent.specialist} width={60} height={60} className='rounded-full w-15 h-15 md:w-[70px] md:h-[70px]' />
+      <h3 className='font-bold mt-1 text-center text-sm md:text-base'>{doctorAgent?.specialist}</h3>
+      <p className='gap-2 text-xs text-center line-clamp-2 px-1'>{doctorAgent?.description}</p>
       {/* <Button className='w-full '>Start Consult<ArrowRight className='ml-2' /></Button> */}
     </div>
   )

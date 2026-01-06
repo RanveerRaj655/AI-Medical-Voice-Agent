@@ -22,23 +22,23 @@ type Props=
 
 function HistoryTable({historyList}:Props) {
   return (
-    <div>
+    <div className="overflow-x-auto">
       <Table>
       <TableCaption>Previous Consultation Reports</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">AI medical Specialist</TableHead>
-          <TableHead className='w-[200px]'>Description</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead className="text-right">Action</TableHead>
+          <TableHead className="w-[150px] md:w-[200px]">AI medical Specialist</TableHead>
+          <TableHead className='w-[150px] md:w-[200px]'>Description</TableHead>
+          <TableHead className="w-[100px]">Date</TableHead>
+          <TableHead className="text-right w-[100px]">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         { historyList.map((record:SessionDetail,index:number)=>(
           <TableRow key={index}>
-            <TableCell className="font-medium">{record.selectedDoctor.specialist}</TableCell>
-            <TableCell>{record.notes}</TableCell>
-            <TableCell>{moment(new Date(record.createdOn)).fromNow()}</TableCell>   
+            <TableCell className="font-medium text-sm md:text-base">{record.selectedDoctor.specialist}</TableCell>
+            <TableCell className="text-sm md:text-base max-w-[150px] md:max-w-none truncate">{record.notes}</TableCell>
+            <TableCell className="text-sm md:text-base">{moment(new Date(record.createdOn)).fromNow()}</TableCell>   
             <TableCell className="text-right"><ViewReportDialog record={record} /></TableCell>
           </TableRow>   
         ))
