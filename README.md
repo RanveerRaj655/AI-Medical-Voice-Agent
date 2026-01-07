@@ -2,6 +2,10 @@
 
 An AI-powered medical consultation platform that enables users to interact with specialized AI doctors through voice and text interfaces. Users can start consultations, manage medical sessions, generate reports, and access premium features via subscriptions.
 
+## Live Demo
+
+Check out the live application at: [echo-health-ai.vercel.app](https://echo-health-ai.vercel.app)
+
 ## Features
 
 - **AI Doctor Consultations**: Chat with AI specialists in various medical fields (Cardiology, Dermatology, Neurology, etc.)
